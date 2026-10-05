@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard-simple-body">
+
+    <!-- Header & Navigation Bar -->
+    <header class="simple-header">
+        <div class="logo">
+            <h3><i class="fa-solid fa-book-open"></i> Library Hub</h3>
+        </div>
+
+        <!-- Navigation Menu: 8 Items -->
+        <nav class="simple-nav">
+            <a href="#" id="nav-dashboardSection" class="nav-item active" onclick="showSection('dashboardSection')">
+                <i class="fa-solid fa-gauge"></i> Dashboard
+            </a>
+            <a href="#" id="nav-booksSection" class="nav-item" onclick="showSection('booksSection')">
+                <i class="fa-solid fa-book"></i> Books
+            </a>
+            <a href="#" id="nav-membersSection" class="nav-item" onclick="showSection('membersSection')">
+                <i class="fa-solid fa-users"></i> Members
+            </a>
+            <a href="#" id="nav-issueSection" class="nav-item" onclick="showSection('issueSection')">
+                <i class="fa-solid fa-hand-holding-hand"></i> Issue Book
+            </a>
+            <a href="#" id="nav-returnSection" class="nav-item" onclick="showSection('returnSection')">
+                <i class="fa-solid fa-arrow-rotate-left"></i> Return Book
+            </a>
+            <a href="#" id="nav-reportsSection" class="nav-item" onclick="showSection('reportsSection')">
+                <i class="fa-solid fa-chart-pie"></i> Reports
+            </a>
+            <a href="#" id="nav-aboutSection" class="nav-item" onclick="showSection('aboutSection')">
+                <i class="fa-solid fa-circle-info"></i> About
+            </a>
+            <a href="#" id="nav-logout" class="nav-item logout-btn" onclick="logoutUser()">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </a>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container my-4">
+
+        <!-- Welcome Greeting Banner -->
+        <div class="welcome-card mb-4 p-4 rounded shadow-sm">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <h2 class="mb-1">Welcome, <span id="userName" class="text-primary-custom">Reader</span>!</h2>
+                    <p class="text-muted mb-0">Library Information Overview & Navigation Hub</p>
+                </div>
+                <div>
+                    <span class="badge bg-dark px-3 py-2 fs-6">
+                        <i class="fa-regular fa-calendar-days"></i> <span id="todayDate">Today</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- 1. DASHBOARD SECTION (SUMMARY CARDS & OVERVIEW) -->
+        <!-- ============================================== -->
+        <section id="dashboardSection" class="content-section">
+            
+            <!-- Summary Cards Row -->
+            <div class="row g-3 mb-4">
+                <!-- Card 1: Total Books -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="summary-card card border-0 shadow-sm p-3 border-start border-4 border-primary">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted text-uppercase mb-1">Total Books</h6>
+                                <h3 class="fw-bold mb-0" id="dashTotalBooks">16</h3>
+                            </div>
+                            <div class="card-icon text-primary fs-1">
+                                <i class="fa-solid fa-book"></i>
+                            </div>
+                        </div>
+                        <small class="text-success mt-2 d-block" id="dashTotalCopiesSubtitle"><i class="fa-solid fa-layer-group"></i> 68 total copies</small>
+                    </div>
+                </div>
+
+                <!-- Card 2: Issued Books -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="summary-card card border-0 shadow-sm p-3 border-start border-4 border-warning">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted text-uppercase mb-1">Issued Books</h6>
+                                <h3 class="fw-bold mb-0" id="dashIssuedBooks">4</h3>
+                            </div>
+                            <div class="card-icon text-warning fs-1">
+                                <i class="fa-solid fa-book-open"></i>
+                            </div>
+                        </div>
+                        <small class="text-muted mt-2 d-block"><i class="fa-solid fa-clock"></i> Active loans with students</small>
+                    </div>
+                </div>
+
+                <!-- Card 3: Members -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="summary-card card border-0 shadow-sm p-3 border-start border-4 border-success">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted text-uppercase mb-1">Members</h6>
+                                <h3 class="fw-bold mb-0" id="dashMembers">4</h3>
+                            </div>
+                            <div class="card-icon text-success fs-1">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                        </div>
+                        <small class="text-success mt-2 d-block"><i class="fa-solid fa-user-check"></i> Registered readers</small>
+                    </div>
+                </div>
+
+                <!-- Card 4: Overdue Books -->
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="summary-card card border-0 shadow-sm p-3 border-start border-4 border-danger">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted text-uppercase mb-1">Overdue Books</h6>
+                                <h3 class="fw-bold mb-0" id="dashOverdueBooks">1</h3>
+                            </div>
+                            <div class="card-icon text-danger fs-1">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                        </div>
+                        <small class="text-danger mt-2 d-block"><i class="fa-solid fa-bell"></i> Overdue return notices</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Navigation Buttons Row -->
+            <div class="card border-0 shadow-sm p-3 mb-4">
+                <h5 class="fw-bold mb-3"><i class="fa-solid fa-bolt text-warning"></i> Quick Actions</h5>
+                <div class="d-flex gap-2 flex-wrap">
+                    <button class="btn btn-outline-primary" onclick="showSection('issueSection')">
+                        <i class="fa-solid fa-hand-holding-hand"></i> Issue a Book
+                    </button>
+                    <button class="btn btn-outline-warning" onclick="showSection('returnSection')">
+                        <i class="fa-solid fa-arrow-rotate-left"></i> Return a Book
+                    </button>
+                    <button class="btn btn-outline-success" onclick="showSection('booksSection')">
+                        <i class="fa-solid fa-magnifying-glass"></i> Search Books
+                    </button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookModal">
+                        <i class="fa-solid fa-plus"></i> Add New Book
+                    </button>
+                    <button class="btn btn-outline-info" onclick="showSection('membersSection')">
+                        <i class="fa-solid fa-user-plus"></i> View Members
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="showSection('reportsSection')">
+                        <i class="fa-solid fa-chart-pie"></i> View Reports
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recent Activity Table -->
+            <div class="card border-0 shadow-sm p-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0"><i class="fa-solid fa-clock-rotate-left text-primary"></i> Recent Issued Books</h5>
+                    <button class="btn btn-sm btn-outline-primary" onclick="showSection('issueSection')">
+                        <i class="fa-solid fa-plus"></i> Issue New
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Member Name</th>
+                                <th>Book Title</th>
+                                <th>Issue Date</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentIssuedTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- 2. BOOKS SECTION (FULL DYNAMIC MANAGEMENT)     -->
+        <!-- ============================================== -->
+        <section id="booksSection" class="content-section" style="display: none;">
+            
+            <!-- Book Metric Chips Row -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-md-3">
+                    <div class="book-metric-chip">
+                        <i class="fa-solid fa-book-bookmark text-primary"></i>
+                        <div>
+                            <span class="text-muted small d-block">Total Titles</span>
+                            <span class="fw-bold fs-5" id="metricTotalBooks">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="book-metric-chip">
+                        <i class="fa-solid fa-layer-group text-info"></i>
+                        <div>
+                            <span class="text-muted small d-block">Total Copies</span>
+                            <span class="fw-bold fs-5" id="metricTotalCopies">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="book-metric-chip">
+                        <i class="fa-solid fa-circle-check text-success"></i>
+                        <div>
+                            <span class="text-muted small d-block">Available</span>
+                            <span class="fw-bold fs-5 text-success" id="metricAvailableBooks">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="book-metric-chip">
+                        <i class="fa-solid fa-clock-rotate-left text-warning"></i>
+                        <div>
+                            <span class="text-muted small d-block">Issued</span>
+                            <span class="fw-bold fs-5 text-warning" id="metricIssuedBooks">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm p-4">
+                <!-- Section Header -->
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                    <div>
+                        <h4 class="fw-bold mb-1"><i class="fa-solid fa-book text-primary"></i> Books Inventory Management</h4>
+                        <p class="text-muted mb-0">Browse, add, search, edit, and organize library book collection.</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookModal">
+                            <i class="fa-solid fa-plus"></i> Add New Book
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter & Search Toolbar -->
+                <div class="filter-toolbar mb-4">
+                    <div class="row g-2 align-items-center">
+                        <!-- Search Box -->
+                        <div class="col-12 col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+                                <input type="text" id="simpleBookSearch" class="form-control border-start-0" placeholder="Search by title, author, or ISBN..." onkeyup="filterBooks()">
+                            </div>
+                        </div>
+
+                        <!-- Category Filter -->
+                        <div class="col-6 col-md-3">
+                            <select id="bookCategoryFilter" class="form-select" onchange="filterBooks()">
+                                <option value="ALL">All Categories</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Software Dev">Software Dev</option>
+                                <option value="AI & Data Science">AI & Data Science</option>
+                                <option value="Fiction">Fiction</option>
+                                <option value="Literature">Literature</option>
+                                <option value="Science">Science</option>
+                                <option value="History">History</option>
+                                <option value="Psychology">Psychology</option>
+                                <option value="Business">Business</option>
+                                <option value="Self Development">Self Development</option>
+                            </select>
+                        </div>
+
+                        <!-- Status Filter -->
+                        <div class="col-6 col-md-3">
+                            <select id="bookStatusFilter" class="form-select" onchange="filterBooks()">
+                                <option value="ALL">All Statuses</option>
+                                <option value="Available">Available Only</option>
+                                <option value="Issued">Issued / Low Stock</option>
+                            </select>
+                        </div>
+
+                        <!-- View Toggle (Table vs Cards) -->
+                        <div class="col-12 col-md-2 text-md-end text-center">
+                            <div class="btn-group" role="group">
+                                <button type="button" id="btnTableView" class="btn btn-outline-secondary btn-sm active" onclick="toggleBooksView('table')" title="Table View">
+                                    <i class="fa-solid fa-table-list"></i> Table
+                                </button>
+                                <button type="button" id="btnGridView" class="btn btn-outline-secondary btn-sm" onclick="toggleBooksView('grid')" title="Grid View">
+                                    <i class="fa-solid fa-table-cells-large"></i> Grid
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table View Container -->
+                <div id="booksTableView" class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle" id="booksTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width: 45px;" class="text-center">#</th>
+                                <th style="width: 70px;" class="text-center">Cover</th>
+                                <th>Book Title & ISBN</th>
+                                <th>Author</th>
+                                <th>Category</th>
+                                <th style="width: 120px;">Copies</th>
+                                <th style="width: 100px;">Shelf</th>
+                                <th style="width: 110px;">Status</th>
+                                <th style="width: 150px;" class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="booksTableBody">
+                            <!-- Populated dynamically via script.js -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Grid View Container -->
+                <div id="booksGridView" class="book-grid" style="display: none;">
+                    <!-- Populated dynamically via script.js -->
+                </div>
+
+                <!-- Empty State Message -->
+                <div id="booksEmptyState" class="empty-state-box" style="display: none;">
+                    <i class="fa-solid fa-book-open-reader"></i>
+                    <h5 class="fw-bold text-secondary">No books found</h5>
+                    <p class="text-muted mb-3">No book records match your search or filter criteria.</p>
+                    <button class="btn btn-outline-primary btn-sm" onclick="resetBookFilters()">
+                        <i class="fa-solid fa-arrow-rotate-left"></i> Reset Filters
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- 3. MEMBERS SECTION                            -->
+        <!-- ============================================== -->
+        <section id="membersSection" class="content-section" style="display: none;">
+            <div class="card border-0 shadow-sm p-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                    <div>
+                        <h4 class="fw-bold mb-1"><i class="fa-solid fa-users text-success"></i> Registered Members</h4>
+                        <p class="text-muted mb-0">List of students and faculty members registered in the library.</p>
+                    </div>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addMemberModal">
+                        <i class="fa-solid fa-user-plus"></i> Add New Member
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Member ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Books Borrowed</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="membersTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- 4. ISSUE BOOK SECTION                          -->
+        <!-- ============================================== -->
+        <section id="issueSection" class="content-section" style="display: none;">
+            <div class="card border-0 shadow-sm p-4">
+                <h4 class="fw-bold mb-2"><i class="fa-solid fa-hand-holding-hand text-primary"></i> Issue Book to Member</h4>
+                <p class="text-muted">Select an available book from the inventory and issue it to a registered library member.</p>
+
+                <form onsubmit="handleIssueBook(event)" id="issueBookForm" class="row g-3 mt-1" style="max-width: 680px;">
+                    <div class="col-md-12">
+                        <label class="form-label fw-semibold">Select Member</label>
+                        <select id="issueMemberSelect" class="form-select" required>
+                            <option value="">-- Choose Registered Member --</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label class="form-label fw-semibold">Select Available Book</label>
+                        <select id="issueBookSelect" class="form-select" required>
+                            <option value="">-- Choose Available Book --</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Issue Date</label>
+                        <input type="date" id="simpleIssueDate" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Due Date (14 Days Standard)</label>
+                        <input type="date" id="simpleDueDate" class="form-control" required>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fa-solid fa-check"></i> Confirm & Issue Book
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- 5. RETURN BOOK SECTION                         -->
+        <!-- ============================================== -->
+        <section id="returnSection" class="content-section" style="display: none;">
+            <div class="card border-0 shadow-sm p-4">
+                <h4 class="fw-bold mb-2"><i class="fa-solid fa-arrow-rotate-left text-warning"></i> Return Book</h4>
+                <p class="text-muted">Process book return, update inventory availability, and check overdue fines.</p>
+
+                <form onsubmit="handleReturnBook(event)" id="returnBookForm" class="row g-3 mt-1" style="max-width: 680px;">
+                    <div class="col-md-12">
+                        <label class="form-label fw-semibold">Select Active Issued Book Record</label>
+                        <select id="returnLoanSelect" class="form-select" onchange="handleReturnSelectChange()" required>
+                            <option value="">-- Select Active Loan --</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Return Date</label>
+                        <input type="date" id="simpleReturnDate" class="form-control" onchange="calculateReturnFine()" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Fine Amount (₹ 5 / overdue day)</label>
+                        <input type="text" id="returnFineDisplay" class="form-control fw-bold text-danger" value="₹ 0.00" readonly>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <button type="submit" class="btn btn-warning px-4 text-dark fw-semibold">
+                            <i class="fa-solid fa-arrow-rotate-left"></i> Confirm Return & Restock
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- 6. REPORTS SECTION                             -->
+        <!-- ============================================== -->
+        <section id="reportsSection" class="content-section" style="display: none;">
+            <div class="card border-0 shadow-sm p-4">
+                <h4 class="fw-bold mb-3"><i class="fa-solid fa-chart-pie text-secondary"></i> Library Circulation Reports</h4>
+                <p class="text-muted">Overview of collection inventory, active loans, and circulation metrics.</p>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="p-3 bg-light rounded text-center border">
+                            <h3 class="fw-bold text-primary mb-1" id="reportTotalBooks">16</h3>
+                            <small class="text-muted">Unique Book Titles</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 bg-light rounded text-center border">
+                            <h3 class="fw-bold text-info mb-1" id="reportTotalCopies">68</h3>
+                            <small class="text-muted">Total Physical Copies</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 bg-light rounded text-center border">
+                            <h3 class="fw-bold text-warning mb-1" id="reportActiveLoans">4</h3>
+                            <small class="text-muted">Active Issued Loans</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 bg-light rounded text-center border">
+                            <h3 class="fw-bold text-success mb-1" id="reportAvailableCopies">64</h3>
+                            <small class="text-muted">Available on Shelves</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <button class="btn btn-outline-primary btn-sm" onclick="exportBooksCSV()">
+                        <i class="fa-solid fa-file-csv"></i> Export Books CSV
+                    </button>
+                    <button class="btn btn-outline-dark btn-sm" onclick="alert('Circulation summary report generated!')">
+                        <i class="fa-solid fa-download"></i> Download Report
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================== -->
+        <!-- 7. ABOUT SECTION                               -->
+        <!-- ============================================== -->
+        <section id="aboutSection" class="content-section" style="display: none;">
+            <div class="card border-0 shadow-sm p-4">
+                <h4 class="fw-bold mb-3"><i class="fa-solid fa-circle-info text-info"></i> About Library Hub</h4>
+                <p>Library Hub is designed to help librarians and students organize, issue, and track book circulation easily.</p>
+
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded">
+                            <h5 class="fw-bold"><i class="fa-solid fa-clock text-warning"></i> Operating Hours</h5>
+                            <p class="mb-1"><strong>Monday - Friday:</strong> 8:00 AM - 7:00 PM</p>
+                            <p class="mb-0"><strong>Saturday:</strong> 9:00 AM - 4:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded">
+                            <h5 class="fw-bold"><i class="fa-solid fa-shield text-success"></i> Borrowing Rules</h5>
+                            <p class="mb-1">Maximum 3 books per member.</p>
+                            <p class="mb-0">Loan duration: 14 days with 1 renewal allowed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ============================================== -->
+    <!-- MODALS: ADD BOOK, EDIT BOOK, VIEW BOOK DETAILS -->
+    <!-- ============================================== -->
+
+    <!-- Modal 1: Add New Book Modal -->
+    <div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold" id="addBookModalLabel"><i class="fa-solid fa-book-medical"></i> Add New Book</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form onsubmit="saveNewBook(event)" id="addBookForm">
+                    <div class="modal-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label class="form-label fw-semibold">Book Title <span class="text-danger">*</span></label>
+                                <input type="text" id="addBookTitle" class="form-control" placeholder="e.g. Clean Architecture" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+                                <select id="addBookCategory" class="form-select" required>
+                                    <option value="Computer Science">Computer Science</option>
+                                    <option value="Software Dev">Software Dev</option>
+                                    <option value="AI & Data Science">AI & Data Science</option>
+                                    <option value="Fiction">Fiction</option>
+                                    <option value="Literature">Literature</option>
+                                    <option value="Science">Science</option>
+                                    <option value="History">History</option>
+                                    <option value="Psychology">Psychology</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Self Development">Self Development</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Author Name <span class="text-danger">*</span></label>
+                                <input type="text" id="addBookAuthor" class="form-control" placeholder="e.g. Robert C. Martin" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">ISBN <span class="text-danger">*</span></label>
+                                <input type="text" id="addBookISBN" class="form-control" placeholder="e.g. 978-0134494166" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Published Year</label>
+                                <input type="number" id="addBookYear" class="form-control" placeholder="e.g. 2017" min="1800" max="2099" value="2023">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Total Copies <span class="text-danger">*</span></label>
+                                <input type="number" id="addBookCopies" class="form-control" min="1" max="100" value="3" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Shelf / Rack Location</label>
+                                <input type="text" id="addBookShelf" class="form-control" placeholder="e.g. CS-105" value="CS-105">
+                            </div>
+
+                            <!-- Cover Image Section -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold d-flex justify-content-between align-items-center">
+                                    <span><i class="fa-solid fa-image text-primary"></i> Book Cover Image</span>
+                                    <small class="text-muted">Enter Image URL or Upload Image</small>
+                                </label>
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-md-9">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="fa-solid fa-link text-muted"></i></span>
+                                            <input type="url" id="addBookImage" class="form-control" placeholder="Paste image URL (e.g. https://... or leave empty)" oninput="previewCoverImage('addBookImage', 'addBookImagePreview', 'addBookImagePlaceholder')">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="fetchCoverFromIsbn('addBookISBN', 'addBookImage', 'addBookImagePreview', 'addBookImagePlaceholder')" title="Auto-fetch cover from ISBN">
+                                                <i class="fa-solid fa-wand-magic-sparkles"></i> From ISBN
+                                            </button>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <label class="btn btn-sm btn-outline-primary mb-0" style="cursor: pointer;">
+                                                <i class="fa-solid fa-upload"></i> Upload Image File
+                                                <input type="file" id="addBookImageFile" accept="image/*" style="display: none;" onchange="handleImageFileUpload(event, 'addBookImage', 'addBookImagePreview', 'addBookImagePlaceholder')">
+                                            </label>
+                                            <small class="text-muted">Supports JPG, PNG, WEBP (Max 2MB)</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 text-center">
+                                        <div class="image-preview-container" id="addBookPreviewBox">
+                                            <img id="addBookImagePreview" class="book-form-preview-img" style="display: none;" alt="Cover Preview" />
+                                            <div id="addBookImagePlaceholder" class="book-form-preview-placeholder">
+                                                <i class="fa-solid fa-image text-muted fs-3"></i>
+                                                <small class="text-muted d-block mt-1" style="font-size: 11px;">Preview</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Book Description / Synopsis</label>
+                                <textarea id="addBookDesc" class="form-control" rows="3" placeholder="Brief summary of book content and topics..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary px-4"><i class="fa-solid fa-save"></i> Save Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Edit Book Modal -->
+    <div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title fw-bold" id="editBookModalLabel"><i class="fa-solid fa-pen-to-square"></i> Edit Book Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form onsubmit="updateBook(event)" id="editBookForm">
+                    <input type="hidden" id="editBookId">
+                    <div class="modal-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label class="form-label fw-semibold">Book Title <span class="text-danger">*</span></label>
+                                <input type="text" id="editBookTitle" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Category <span class="text-danger">*</span></label>
+                                <select id="editBookCategory" class="form-select" required>
+                                    <option value="Computer Science">Computer Science</option>
+                                    <option value="Software Dev">Software Dev</option>
+                                    <option value="AI & Data Science">AI & Data Science</option>
+                                    <option value="Fiction">Fiction</option>
+                                    <option value="Literature">Literature</option>
+                                    <option value="Science">Science</option>
+                                    <option value="History">History</option>
+                                    <option value="Psychology">Psychology</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Self Development">Self Development</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Author Name <span class="text-danger">*</span></label>
+                                <input type="text" id="editBookAuthor" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">ISBN</label>
+                                <input type="text" id="editBookISBN" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Published Year</label>
+                                <input type="number" id="editBookYear" class="form-control" min="1800" max="2099">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Total Copies</label>
+                                <input type="number" id="editBookCopies" class="form-control" min="1" max="100" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold">Shelf Location</label>
+                                <input type="text" id="editBookShelf" class="form-control">
+                            </div>
+
+                            <!-- Edit Cover Image Section -->
+                            <div class="col-12">
+                                <label class="form-label fw-semibold d-flex justify-content-between align-items-center">
+                                    <span><i class="fa-solid fa-image text-warning"></i> Book Cover Image</span>
+                                    <small class="text-muted">Enter Image URL or Upload Image</small>
+                                </label>
+                                <div class="row g-2 align-items-center">
+                                    <div class="col-md-9">
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="fa-solid fa-link text-muted"></i></span>
+                                            <input type="url" id="editBookImage" class="form-control" placeholder="Paste image URL (e.g. https://...)" oninput="previewCoverImage('editBookImage', 'editBookImagePreview', 'editBookImagePlaceholder')">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="fetchCoverFromIsbn('editBookISBN', 'editBookImage', 'editBookImagePreview', 'editBookImagePlaceholder')" title="Auto-fetch cover from ISBN">
+                                                <i class="fa-solid fa-wand-magic-sparkles"></i> From ISBN
+                                            </button>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <label class="btn btn-sm btn-outline-warning text-dark mb-0" style="cursor: pointer;">
+                                                <i class="fa-solid fa-upload"></i> Upload Image File
+                                                <input type="file" id="editBookImageFile" accept="image/*" style="display: none;" onchange="handleImageFileUpload(event, 'editBookImage', 'editBookImagePreview', 'editBookImagePlaceholder')">
+                                            </label>
+                                            <small class="text-muted">Supports JPG, PNG, WEBP (Max 2MB)</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 text-center">
+                                        <div class="image-preview-container" id="editBookPreviewBox">
+                                            <img id="editBookImagePreview" class="book-form-preview-img" style="display: none;" alt="Cover Preview" />
+                                            <div id="editBookImagePlaceholder" class="book-form-preview-placeholder">
+                                                <i class="fa-solid fa-image text-muted fs-3"></i>
+                                                <small class="text-muted d-block mt-1" style="font-size: 11px;">Preview</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Book Description</label>
+                                <textarea id="editBookDesc" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-warning px-4 fw-semibold text-dark"><i class="fa-solid fa-check"></i> Update Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: View Book Details Modal -->
+    <div class="modal fade" id="viewBookModal" tabindex="-1" aria-labelledby="viewBookModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title fw-bold" id="viewBookModalLabel"><i class="fa-solid fa-circle-info text-warning"></i> Book Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="book-detail-banner d-flex align-items-center gap-3">
+                        <div class="book-detail-cover-box" id="viewDetailCoverBox">
+                            <img id="viewDetailCoverImg" class="book-detail-cover-img" src="" alt="Book Cover" style="display: none;" onerror="handleDetailCoverError()">
+                            <div id="viewDetailCoverPlaceholder" class="book-big-icon">
+                                <i class="fa-solid fa-book-open"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold mb-1" id="viewDetailTitle">Book Title</h4>
+                            <p class="mb-0 text-light opacity-75">by <span id="viewDetailAuthor" class="fw-semibold">Author</span></p>
+                            <span class="badge bg-warning text-dark mt-2" id="viewDetailCategory">Category</span>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-sm-6 col-md-3">
+                            <div class="p-2 border rounded bg-light">
+                                <small class="text-muted d-block">ISBN</small>
+                                <span class="fw-bold" id="viewDetailISBN">--</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="p-2 border rounded bg-light">
+                                <small class="text-muted d-block">Published Year</small>
+                                <span class="fw-bold" id="viewDetailYear">--</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="p-2 border rounded bg-light">
+                                <small class="text-muted d-block">Shelf Location</small>
+                                <span class="fw-bold" id="viewDetailShelf">--</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3">
+                            <div class="p-2 border rounded bg-light">
+                                <small class="text-muted d-block">Availability</small>
+                                <span class="fw-bold text-success" id="viewDetailAvailability">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h6 class="fw-bold mb-2">Synopsis & Description</h6>
+                        <p class="text-muted" id="viewDetailDesc" style="line-height: 1.6;">No description available.</p>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="viewDetailIssueBtn" onclick="issueCurrentViewedBook()">
+                        <i class="fa-solid fa-hand-holding-hand"></i> Issue This Book
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 4: Add Member Modal -->
+    <div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title fw-bold" id="addMemberModalLabel"><i class="fa-solid fa-user-plus"></i> Add New Member</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form onsubmit="saveNewMember(event)" id="addMemberForm">
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Full Name <span class="text-danger">*</span></label>
+                            <input type="text" id="addMemberName" class="form-control" placeholder="e.g. Alex Johnson" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
+                            <input type="email" id="addMemberEmail" class="form-control" placeholder="e.g. alex@example.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Phone (10 Digits) <span class="text-danger">*</span></label>
+                            <input type="tel" id="addMemberPhone" class="form-control" placeholder="e.g. 9876543210" pattern="[0-9]{10}" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success px-4"><i class="fa-solid fa-check"></i> Register Member</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom App Script -->
+    <script src="script.js"></script>
+</body>
+</html>
